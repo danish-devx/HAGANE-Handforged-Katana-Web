@@ -120,6 +120,10 @@ The 3D environment uses a drei preset and may download an HDRI from a CDN at run
 - Three, GSAP, and Lenis are split into vendor chunks for long-term caching.
 - Mobile layouts reduce petal count and device pixel ratio, and convert the forge sequence into a vertical stack.
 
+## Author
+
+Created by [Danish Devx](https://github.com/danish-devx).
+
 ## Credits
 
 HAGANE draws from sumi-e ink painting, Japanese craft presentation, and the visual language of traditional nihontō. The atelier, sword, and interactions are fictional. The Musashi quotation references *The Book of Five Rings* (五輪書).
