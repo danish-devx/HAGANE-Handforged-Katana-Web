@@ -1,86 +1,129 @@
-⚔️ HAGANE 鋼 — Handforged Katana
-The steel remembers.
+# HAGANE 鋼
 
-A cinematic, scroll-driven landing page for a fictional Japanese swordsmith atelier —featuring a 100% procedurally generated 3D katana (zero model files), a customGLSL hamon shader, and GSAP-choreographed scroll storytelling.
+### The steel remembers.
 
-Live Demo: https://your-url.vercel.app
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_HAGANE-c4472f?style=for-the-badge&logo=vercel&logoColor=white)](https://hagane-handforged-katana-web.vercel.app/)
+[![React](https://img.shields.io/badge/React-19.2.8-61dafb?style=flat-square&logo=react&logoColor=111111)](https://react.dev/)
+[![Three.js](https://img.shields.io/badge/Three.js-WebGL-black?style=flat-square&logo=threedotjs&logoColor=white)](https://threejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.3.0-646cff?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
+[![License](https://img.shields.io/badge/License-MIT-111111?style=flat-square)](#license)
 
-ReactThree.jsGSAPTailwindVite
+HAGANE is a cinematic, scroll-driven digital atelier for a fictional Japanese swordsmith. The experience combines a procedurally generated 3D katana, custom GLSL shading, and editorial Japanese-inspired art direction into one interactive WebGL journey.
 
-✨ Highlights
-🔥 Procedural Katana — blade, habaki, tsuba, tsuka and saya are all generated fromraw BufferGeometry. No .glb files, no external assets — the entire sword lives in code.
-🌊 Hamon (Temper-Line) Shader — the wavy quench line is a GLSL fragment patchinjected into MeshStandardMaterial via onBeforeCompile, keeping full PBR andenvironment lighting intact.
-🗡️ Unsheath Intro — the blade physically slides out of the saya (scabbard); thehidden portion is occluded by the depth buffer alone. No clipping planes, no tricks.
-🌸 Scroll-Reactive Sakura — an InstancedMesh of petals whose wind impulse is drivenby live scroll velocity (Lenis). Scroll fast → petal storm. Scroll slow → stillness.
-📌 Pinned Anatomy Journey — ScrollTrigger pins the section while the camera travelsthe blade through 4 named stations (切先 Kissaki · 刃文 Hamon · 鍔 Tsuba · 柄 Tsuka),with HTML labels anchored in 3D space via drei Html.
-↔️ Horizontal Forge — vertical scroll translates into horizontal panel travel, withcontainerAnimation-based reveals and a live furnace-temperature HUD that peaks at1,320°C during yaki-ire, then quenches.
-🎴 Japanese Editorial Design — traditional palette (墨 sumi · 生成 kinari · 朱 shu ·金 kin), Mincho typography, hanko seal micro-interactions, vertical writing-mode kanji.
-♿ Accessible Motion — full prefers-reduced-motion support: cinematic layersgracefully degrade while every scroll-driven interaction remains functional.
-⚡ Performance-Minded — vendor chunk splitting, frameloop pausing off-screen,DPR cap [1, 2], dynamic draw usage, mobile fallbacks via gsap.matchMedia.
-🧠 Architecture — The State Bridge
-The core pattern that keeps GSAP, ScrollTrigger and Three.js decoupled:
+**Live experience:** [hagane-handforged-katana-web.vercel.app](https://hagane-handforged-katana-web.vercel.app/)
 
-GSAP / ScrollTrigger          useFrame (every frame)         Three.js scenetweens plain numbers    →     reads numbers, damps     →     applies transforms(katanaState.unsheath)        and eases them                 (position, rotation)
-GSAP never touches a mesh directly. This made every animation source — the introtimeline, scrub-linked ScrollTriggers, mouse parallax — compose onto the same swordwithout a single refactor.
+## Highlights
 
-📄 Sections
-#	Section	Technique
-—	Preloader	鋼 kanji blur-in, counter, ink-exit handover
-—	Navbar	kanji-swap link slots, active-section tracking, scroll progress line, fullscreen mobile menu
-00	Hero	gallery-plinth composition, mask-reveal statement, hanko seal stamp-in
-—	Marquee	tilted vermilion ribbon, CSS infinite loop
-01	Philosophy	word-by-word scrub reveal + SVG brush underline (pathLength)
-02	Anatomy	pinned camera journey, 3D-anchored labels, station index
-03	The Forge	horizontal scroll, containerAnimation reveals, temperature HUD, rising embers
-04	Specifications	count-up numerals, blueprint measure line, material swatches
-05	Variants	asymmetric grid, quickTo 3D tilt + silhouette parallax, hanko stamp-in
-—	Quote	Musashi, parallax watermark
-06	Reserve	form state machine (idle → sending → sealed), live nakago engraving preview
-—	Footer	live Seki JST clock, bleeding wordmark
-🛠️ Tech Stack
-Layer	Tool
-Build	Vite 5 + React 18
-Styling	TailwindCSS v4, custom @theme tokens
-3D	Three.js + @react-three/fiber + drei
-Animation	GSAP 3 + ScrollTrigger, gsap.matchMedia
-Smooth scroll	Lenis (synced to GSAP ticker)
-Typography	Shippori Mincho B1 · Zen Kaku Gothic New
-🚀 Getting Started
-git clone https://github.com/YOUR-USERNAME/hagane.gitcd haganenpm installnpm run dev
-Script	Purpose
-npm run dev	dev server
-npm run build	production build
-npm run preview	serve the production build locally
-The 3D environment uses drei's preset (downloads an HDRI from a CDN at runtime).Fully offline? Swap in a procedural Lightformer rig as shown in KatanaScene.jsx.
+- **Procedural katana:** Blade, habaki, tsuba, tsuka, and saya are generated from raw `BufferGeometry`. No `.glb` model files are required.
+- **Custom hamon shader:** A fragment shader patch adds a distinct wavy temper line while preserving PBR materials and environment lighting.
+- **Physical unsheathing:** The blade slides out of the saya and relies on depth occlusion rather than clipping planes.
+- **Scroll-reactive sakura:** Instanced petals respond to live Lenis scroll velocity, moving from stillness to a wind-driven storm.
+- **Pinned anatomy journey:** ScrollTrigger moves the camera through four named stations: Kissaki, Hamon, Tsuba, and Tsuka.
+- **Horizontal forge sequence:** Vertical scroll becomes horizontal panel travel with a live furnace-temperature HUD peaking at 1,320°C during yaki-ire.
+- **Editorial Japanese direction:** Sumi, kinari, shu, and kin tones meet Mincho typography, hanko seals, vertical kanji, and ink-inspired transitions.
+- **Reduced-motion support:** `prefers-reduced-motion` keeps the content usable while disabling autonomous cinematic motion.
 
-📁 Project Structure
-src/├── three/                  # 3D layer (React-UI agnostic)│   ├── KatanaScene.jsx     # Canvas, lights, camera rig, intro timeline│   ├── Katana.jsx          # Assembly + float/rotation/unsheath driver│   ├── AnatomyLabels.jsx   # HTML labels anchored in 3D (drei Html)│   ├── Petals.jsx          # Sakura InstancedMesh + wind physics│   ├── katanaState.js      # Global pose state — the GSAP ↔ useFrame bridge│   ├── parts/              # Blade · Habaki · Tsuba · Tsuka · Saya│   ├── geometry/           # Pure math: bladeGeometry, sayaGeometry, curveUtils│   └── materials/          # HamonMaterial (GLSL) · PBR presets├── components/│   ├── sections/           # 12 page sections│   └── ui/                 # SealStamp, InkDivider, ForgeIcon, ...├── hooks/                  # useLenis · useReveal├── utils/                  # gsapSetup (plugins + REDUCED flag)└── data/                   # Content: forgeSteps · specs · variants
-🎛️ Tuning the Blade
-Because the sword is parametric, variants are just configs:
+## Experience Map
 
-export const BLADE_CONFIG = {  length: 70,
-Knob	File	Effect
-curve / curveExponent	bladeGeometry.js	blade silhouette
-hamonLine base + noise	HamonMaterial.jsx	temper-line character
-LOBES / WOBBLE	Tsuba.jsx	guard shape (mokko / sanko / round)
-STATIONS[]	Anatomy.jsx	camera framing per part
-TEMP_CURVE	Forge.jsx	furnace temperature story
-♿ Accessibility & Performance
-prefers-reduced-motion: Lenis, idle float, petals, marquees and autonomous tweensare disabled — scrub-driven interactions remain fully usable.
-Canvas frameloop pauses when the 3D scene is off-screen (hero + anatomy only).
-Vendor chunks (three, gsap, lenis) are split for long-term caching.
-Mobile: the horizontal forge falls back to a vertical stack via gsap.matchMedia;petal count and DPR scale down.
-📦 Deployment
-Deployed on Vercel (auto-deploys on push to main):
+| Section | Experience |
+| --- | --- |
+| Preloader | Kanji blur-in, progress counter, and ink-exit handover |
+| Hero | Gallery plinth composition, statement reveal, and hanko stamp-in |
+| Philosophy | Word-by-word scrub reveal with a brush underline |
+| Anatomy | Pinned camera journey with labels anchored in 3D space |
+| The Forge | Horizontal scroll, temperature HUD, and rising embers |
+| Specifications | Count-up numerals, blueprint measure line, and material swatches |
+| Variants | 3D tilt, silhouette parallax, and alternate blade configurations |
+| Reserve | Form state machine with a live nakago engraving preview |
+| Footer | Live Seki, Japan clock and closing wordmark |
 
-npm i -D vercelnpx vercel --prod
-No custom config needed — Vite is auto-detected.
+## Tech Stack
 
-🙏 Credits & Notes
-Design inspiration: sumi-e ink painting, traditional Japanese craft sites, and themuseum presentation of nihontō.
-Katana terminology and forging process: traditional nihontō craft references.
-Quote: Miyamoto Musashi, The Book of Five Rings (五輪書).
-HAGANE is a fictional atelier — this project is a WebGL tribute to theswordsmith's craft, and a demonstration of procedural 3D and scroll choreography.
-📄 License
-MIT — forge freely. ⚔️
+| Layer | Tools |
+| --- | --- |
+| App | React 19, Vite 8 |
+| 3D | Three.js, React Three Fiber, drei |
+| Animation | GSAP, ScrollTrigger, `gsap.matchMedia` |
+| Smooth scroll | Lenis, synchronized with the GSAP ticker |
+| Styling | Tailwind CSS v4 and custom CSS tokens |
+| Typography | Shippori Mincho B1 and Zen Kaku Gothic New |
 
+## Architecture
+
+The animation system uses a small shared state bridge. GSAP writes plain numeric values, while the Three.js render loop reads and damps them every frame. This keeps scroll choreography, pointer parallax, and 3D transforms independent from one another.
+
+```text
+GSAP / ScrollTrigger  ->  katanaState  ->  useFrame  ->  3D transforms
+                         plain numbers     damping       position / rotation
+```
+
+The 3D layer is organized into reusable geometry, material, and part modules:
+
+```text
+src/
+├── components/       Page sections and reusable UI
+├── data/              Forge steps, specifications, and variants
+├── hooks/             Lenis and scroll-reveal hooks
+├── three/
+│   ├── geometry/      Blade, saya, and curve math
+│   ├── materials/     Hamon shader and PBR presets
+│   ├── parts/         Blade, habaki, tsuba, tsuka, and saya
+│   ├── Katana.jsx     Assembly and pose driver
+│   └── KatanaScene.jsx
+└── utils/             GSAP plugin and reduced-motion setup
+```
+
+## Getting Started
+
+### Requirements
+
+- Node.js 18 or newer
+- npm 9 or newer
+
+### Installation
+
+```bash
+git clone <your-github-repository-url>
+cd hagane
+npm install
+npm run dev
+```
+
+Open the local URL shown by Vite in your browser.
+
+### Available scripts
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Create a production build |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
+
+## Deployment
+
+HAGANE is deployed on Vercel and can be redeployed automatically from the connected GitHub repository.
+
+```bash
+npx vercel --prod
+```
+
+Vite is detected automatically, so no custom Vercel configuration is required.
+
+The 3D environment uses a drei preset and may download an HDRI from a CDN at runtime. For a fully offline setup, replace it with a procedural Lightformer rig in `KatanaScene.jsx`.
+
+## Performance and Accessibility
+
+- Lenis, idle float, petals, marquees, and autonomous tweens respect reduced-motion preferences.
+- Scroll-driven interactions remain available when cinematic motion is disabled.
+- The canvas pauses when the 3D scene is off-screen.
+- Three, GSAP, and Lenis are split into vendor chunks for long-term caching.
+- Mobile layouts reduce petal count and device pixel ratio, and convert the forge sequence into a vertical stack.
+
+## Credits
+
+HAGANE draws from sumi-e ink painting, Japanese craft presentation, and the visual language of traditional nihontō. The atelier, sword, and interactions are fictional. The Musashi quotation references *The Book of Five Rings* (五輪書).
+
+## License
+
+MIT. Forge freely. ⚔️
