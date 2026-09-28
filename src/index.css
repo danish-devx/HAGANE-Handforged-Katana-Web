@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-sumi: #141210;
+  --color-kinari: #f4efe6;
+  --color-shu: #c3272b;
+  --color-sakura: #f2c4ce;
+  --color-hagane: #b8bcc0;
+  --color-kin: #b08d3e;
+
+  --font-mincho: "Shippori Mincho B1", serif;
+  --font-gothic: "Zen Kaku Gothic New", sans-serif;
+}
+
+html {
+  scroll-behavior: auto;
+}
+body {
+  background: var(--color-sumi);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.v-text {
+  writing-mode: vertical-rl;
+}
+
+::selection {
+  background: #c3272b;
+  color: #f4efe6;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #141210;
+}
+::-webkit-scrollbar-thumb {
+  background: #2c2825;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3530;
+}
+
+@keyframes scrollcue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.scroll-line {
+  animation: scrollcue 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+body {
+  overflow-x: clip;
+}
+
+.kanji-outline {
+  font-size: clamp(9rem, 22vw, 22rem);
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(244, 239, 230, 0.13);
+}
+
+@keyframes ember-rise {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--eo, 0.6);
+  }
+  100% {
+    transform: translate(var(--edx, 2vw), -52vh) scale(0.3);
+    opacity: 0;
+  }
+}
+.ember {
+  animation: ember-rise var(--edur, 7s) linear infinite;
+  animation-delay: var(--edel, 0s);
+}
+
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes stamp-in {
+  0% {
+    transform: scale(2.4) rotate(-16deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.94) rotate(-5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-6deg);
+    opacity: 1;
+  }
+}
+.stamp-in {
+  animation: stamp-in 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(244, 239, 230, 0.7);
+}
+@media (max-width: 767px) {
+  .text-outline {
+    -webkit-text-stroke-width: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .ember,
+  .scroll-line {
+    animation: none !important;
+  }
+  .stamp-in {
+    animation: none !important;
+    transform: none;
+    opacity: 1;
+  }
+}
